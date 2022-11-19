@@ -1,3 +1,12 @@
 ---
 profile_slingshot::fm::required_pkgs:
   - "slingshot-fmn-redhat"
+
+profile_slinghost::fm::yumrepo:
+  slingshot-2.0-fmn-rhel86:
+    ensure: "present"
+    baseurl: "http://172.28.22.9/install/repos/slingshot-fmn-packages-2.0.0-384-redhat-8update6"
+    descr: "Slingshot Fabric Manager 2.0.0 RHEL 8.6"
+    enabled: true
+    gpgcheck: true
+    gpgkey: "http://172.28.22.9/install/repos/slingshot-fmn-packages-2.0.0-384-redhat-8update6/HPE-SHASTA-RPM-PROD.asc"
