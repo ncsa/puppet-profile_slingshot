@@ -1,0 +1,3 @@
+---
+profile_slingshot::fm::required_pkgs:
+  - "slingshot-fmn-redhat"
