@@ -6,6 +6,8 @@
 #   include profile_slingshot::fm
 class profile_slingshot::fm (
   Boolean         $enable,
+  String          $nginx_version
+  String          $php_version
   Array[ String ] $required_pkgs,
 ) {
 
@@ -15,13 +17,14 @@ class profile_slingshot::fm (
     #  command     => 'dnf -y module reset php container-tools nginx',
     #  require      => Exec['dnf-enable'],
     #  refreshonly => true,
-    #}
+    #}i
+    $dnf_module_command = "dnf -y module reset php container-tools nginx && dnf -y module enable php:$php_version nginx:$nginx_version container-tools"
     exec { 'slingshot-dnf-modules':
       path     => $path,
       provider => shell,
-      command  => 'dnf -y module reset php container-tools nginx;dnf -y module enable php:7.3 nginx:1.16 container-tools',
+      command  => $dnf_module_command,
+      unless   => "dnf module list nginx | grep ${nginx_version} | egrep -i \'${nginx_version} \\[[e|d]\\]\' || dnf module list php | grep ${php_version} | egrep -i \'${php_version} \\[[e|d]\\]\'",
       before   => Package['slingshot-fmn-redhat'],
-      onlyif   => 'rpm -e --test slingshot-fmn-redhat',
     }
     package { 'slingshot-fmn-redhat':
       ensure  => installed,
