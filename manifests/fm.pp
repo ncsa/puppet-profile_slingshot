@@ -7,7 +7,6 @@
 class profile_slingshot::fm (
   Boolean         $enable,
   Array[ String ] $required_pkgs,
-  Hash            $yumrepo,
 ) {
 
   if ($enable) {
