@@ -6,8 +6,8 @@
 #   include profile_slingshot::fm
 class profile_slingshot::fm (
   Boolean         $enable,
-  String          $nginx_version
-  String          $php_version
+  String          $nginx_version,
+  String          $php_version,
   Array[ String ] $required_pkgs,
 ) {
 
