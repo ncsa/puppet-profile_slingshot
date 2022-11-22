@@ -10,11 +10,11 @@ class profile_slingshot::fm (
 ) {
 
   if ($enable) {
-    package { 'nginx'
-      provider    => 'dnfmodule',
-      ensure      => 'nginx:1.16',
-      enable_only => 'true',
-    }
+    #package { 'nginx'
+    #provider    => 'dnfmodule',
+    #  ensure      => 'nginx:1.16',
+    #  enable_only => 'true',
+    #}
     exec { 'dnf-enable':
       path        =>  $path,
       command     =>  'dnf config-manger --enable nginx:1.16 container-tools',
