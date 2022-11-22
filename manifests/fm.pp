@@ -21,7 +21,7 @@ class profile_slingshot::fm (
       command     =>  'dnf -y module enable nginx:1.16 container-tools',
       refreshonly =>  true,
     }
-    package { 'slingshot-fmn-redhat'
-      ensure      => installed,
+    package { 'slingshot-fmn-redhat':
+      ensure      => 'installed',
     } 
 }
