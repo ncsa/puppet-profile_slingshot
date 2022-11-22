@@ -22,6 +22,6 @@ class profile_slingshot::fm (
       refreshonly =>  true,
     }
     package { 'slingshot-fmn-redhat'
-      ensure      => 'installed',
+      ensure      => installed,
     } 
 }
