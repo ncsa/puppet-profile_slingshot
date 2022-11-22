@@ -26,5 +26,6 @@ class profile_slingshot::fm (
       ensure  => installed,
       require => Exec['slingshot-modules'],
     }
+    Exec['slingshot-modules'] -> Package['slingshot-fmn-redhat']
   }
 }
