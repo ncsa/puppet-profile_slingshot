@@ -20,7 +20,7 @@ class profile_slingshot::fm (
       path        => $path,
       command     => 'dnf -y module enable nginx:1.16 container-tools',
       refreshonly => true,
-      before      => Package['slingshot-fmn-redhat']
+      before      => Package['slingshot-fmn-redhat'],
     }
     package { 'slingshot-fmn-redhat':
       ensure  => installed,
