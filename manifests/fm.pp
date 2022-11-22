@@ -10,11 +10,6 @@ class profile_slingshot::fm (
 ) {
 
   if ($enable) {
-    #package { 'nginx'
-    #provider    => 'dnfmodule',
-    #  ensure      => 'nginx:1.16',
-    #  enable_only => 'true',
-    #}
     exec { 'dnf-modules':
       path        =>  $path,
       command     =>  'dnf -y module reset container-tools nginx',
@@ -26,9 +21,7 @@ class profile_slingshot::fm (
       command     =>  'dnf -y module enable nginx:1.16 container-tools',
       refreshonly =>  true,
     }
-
-    $packages_defaults = {
-    }
-    ensure_packages( $required_pkgs, $packages_defaults )
-  } 
+    package { 'slingshot-fmn-redhat'
+      ensure      => 'installed',
+    } 
 }
