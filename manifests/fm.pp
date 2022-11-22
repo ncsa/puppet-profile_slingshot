@@ -19,12 +19,12 @@ class profile_slingshot::fm (
     exec { 'dnf-enable':
       path        => $path,
       command     => 'dnf -y module enable php:7.3 nginx:1.16 container-tools',
-      require      => Package['slingshot-fmn-redhat'],
+      before      => Package['slingshot-fmn-redhat'],
       refreshonly => true,
     }
     package { 'slingshot-fmn-redhat':
       ensure  => installed,
-      require => [Exec['dnf-modules'],Exec['dnf-enable'],],
+      #require => [Exec['dnf-modules'],Exec['dnf-enable'],],
     }
   }
 }
