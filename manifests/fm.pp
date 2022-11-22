@@ -11,12 +11,6 @@ class profile_slingshot::fm (
 ) {
 
   if ($enable) {
-    $yumrepo_defaults = {
-      ensure  => present,
-      enabled => true,
-    }
-    ensure_resources( 'yumrepo', $yumrepo, $yumrepo_defaults )
-
     $packages_defaults = {
     }
     ensure_packages( $required_pkgs, $packages_defaults )
