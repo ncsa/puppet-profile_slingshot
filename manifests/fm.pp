@@ -24,7 +24,7 @@ class profile_slingshot::fm (
     }
     package { 'slingshot-fmn-redhat':
       ensure  => installed,
-      after => [Exec['dnf-modules'],Exec['dnf-enable'],],
+      require => [Exec['dnf-modules'],Exec['dnf-enable'],],
     }
   }
 }
