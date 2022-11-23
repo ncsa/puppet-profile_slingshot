@@ -8,6 +8,8 @@ class profile_slingshot::fm (
   Boolean         $enable,
   String          $nginx_version,
   String          $php_version,
+  String          $cert
+  String          $key
   Array[ String ] $required_pkgs,
 ) {
 
@@ -30,6 +32,22 @@ class profile_slingshot::fm (
       ensure  => installed,
       require => Exec['slingshot-dnf-modules'],
     }
+    file { 'fabric-manager-key'
+      contents => $key,
+      ensure   => '/opt/slingshot/config/ssl/fabric-manager.key'
+      mode    => '0600'
+      owner    => 'root',
+      group    => 'root',
+    }
+
+    file { 'fabric-manager-cert'
+      contents => $cert,
+      ensure   => '/opt/slingshot/config/ssl/fabric-manager.cert',
+      mode     => '0644',
+      owner    => 'root',
+      group    => 'root',
+    }
+
     Exec['slingshot-dnf-modules'] -> Package['slingshot-fmn-redhat']
   }
 }
