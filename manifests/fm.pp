@@ -50,7 +50,6 @@ class profile_slingshot::fm (
     service { 'slingshot-nginx':
       ensure   => 'running',
       provider => 'redhat',
-      enable   => 'true',
     }
 
     Exec['slingshot-dnf-modules'] -> Package['slingshot-fmn-redhat'] -> File['/opt/slingshot/config/ssl/fabric-manager.crt'] -> File['/opt/slingshot/config/ssl/fabric-manager.key'] -> Service['slingshot-nginx']
