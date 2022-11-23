@@ -37,7 +37,7 @@ class profile_slingshot::fm (
       mode    => '0600',
       owner    => 'root',
       group    => 'root',
-      notify  => 'slingshot-nginx'
+      notify  => Service['slingshot-nginx'],
     }
 
     file { '/opt/slingshot/config/ssl/fabric-manager.crt':
@@ -45,6 +45,7 @@ class profile_slingshot::fm (
       mode     => '0644',
       owner    => 'root',
       group    => 'root',
+      notify  => Service['slingshot-nginx'],
     }
     service { 'slingshot-nginx':
       ensure   => 'running',
