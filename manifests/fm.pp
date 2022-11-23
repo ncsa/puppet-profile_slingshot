@@ -33,7 +33,7 @@ class profile_slingshot::fm (
       require => Exec['slingshot-dnf-modules'],
     }
     file { 'fabric-manager-key':
-      contents => $key,
+      content => $key,
       ensure   => '/opt/slingshot/config/ssl/fabric-manager.key',
       mode    => '0600',
       owner    => 'root',
@@ -41,7 +41,7 @@ class profile_slingshot::fm (
     }
 
     file { 'fabric-manager-cert':
-      contents => $cert,
+      content => $cert,
       ensure   => '/opt/slingshot/config/ssl/fabric-manager.cert',
       mode     => '0644',
       owner    => 'root',
