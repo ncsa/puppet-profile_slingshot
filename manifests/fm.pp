@@ -8,9 +8,9 @@ class profile_slingshot::fm (
   Boolean         $enable,
   String          $nginx_version,
   String          $php_version,
+  String          $fm_version,
   String          $cert,
   String          $key,
-  Array[ String ] $required_pkgs,
 ) {
 
   if ($enable) {
@@ -29,7 +29,7 @@ class profile_slingshot::fm (
       before   => Package['slingshot-fmn-redhat'],
     }
     package { 'slingshot-fmn-redhat':
-      ensure  => installed,
+      ensure  => $fm_version,
       require => Exec['slingshot-dnf-modules'],
     }
     file { '/opt/slingshot/config/ssl/fabric-manager.key':
