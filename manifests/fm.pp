@@ -37,6 +37,7 @@ class profile_slingshot::fm (
       mode    => '0600',
       owner    => 'root',
       group    => 'root',
+      notify  => 'slingshot-nginx'
     }
 
     file { '/opt/slingshot/config/ssl/fabric-manager.crt':
@@ -45,7 +46,11 @@ class profile_slingshot::fm (
       owner    => 'root',
       group    => 'root',
     }
+    service { 'slingshot-nginx':
+      ensure => 'running'
+      enable => 'true'
+    }
 
-    Exec['slingshot-dnf-modules'] -> Package['slingshot-fmn-redhat'] -> File['/opt/slingshot/config/ssl/fabric-manager.crt'] -> File['/opt/slingshot/config/ssl/fabric-manager.key']
+    Exec['slingshot-dnf-modules'] -> Package['slingshot-fmn-redhat'] -> File['/opt/slingshot/config/ssl/fabric-manager.crt'] -> File['/opt/slingshot/config/ssl/fabric-manager.key'] -> Service['slingshot-nginx']
   }
 }
