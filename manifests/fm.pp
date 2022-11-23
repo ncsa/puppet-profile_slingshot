@@ -39,13 +39,13 @@ class profile_slingshot::fm (
       group    => 'root',
     }
 
-    file { '/opt/slingshot/config/ssl/fabric-manager.cert':
+    file { '/opt/slingshot/config/ssl/fabric-manager.crt':
       content => $cert,
       mode     => '0644',
       owner    => 'root',
       group    => 'root',
     }
 
-    Exec['slingshot-dnf-modules'] -> Package['slingshot-fmn-redhat']
+    Exec['slingshot-dnf-modules'] -> Package['slingshot-fmn-redhat'] -> File[''] -> File['']
   }
 }
