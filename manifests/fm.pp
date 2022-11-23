@@ -8,8 +8,8 @@ class profile_slingshot::fm (
   Boolean         $enable,
   String          $nginx_version,
   String          $php_version,
-  String          $cert
-  String          $key
+  String          $cert,
+  String          $key,
   Array[ String ] $required_pkgs,
 ) {
 
