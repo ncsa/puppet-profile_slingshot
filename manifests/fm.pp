@@ -46,6 +46,6 @@ class profile_slingshot::fm (
       group    => 'root',
     }
 
-    Exec['slingshot-dnf-modules'] -> Package['slingshot-fmn-redhat'] -> File[''] -> File['']
+    Exec['slingshot-dnf-modules'] -> Package['slingshot-fmn-redhat'] -> File['/opt/slingshot/config/ssl/fabric-manager.crt'] -> File['/opt/slingshot/config/ssl/fabric-manager.key']
   }
 }
