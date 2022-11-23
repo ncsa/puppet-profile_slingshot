@@ -34,8 +34,8 @@ class profile_slingshot::fm (
     }
     file { 'fabric-manager-key'
       contents => $key,
-      ensure   => '/opt/slingshot/config/ssl/fabric-manager.key'
-      mode    => '0600'
+      ensure   => '/opt/slingshot/config/ssl/fabric-manager.key',
+      mode    => '0600',
       owner    => 'root',
       group    => 'root',
     }
