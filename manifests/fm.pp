@@ -11,6 +11,7 @@ class profile_slingshot::fm (
   String          $fm_version,
   String          $cert,
   String          $key,
+  Hash[String,String] $firewall_allowed_subnets,
 ) {
 
   if ($enable) {
@@ -53,5 +54,23 @@ class profile_slingshot::fm (
     }
 
     Exec['slingshot-dnf-modules'] -> Package['slingshot-fmn-redhat'] -> File['/opt/slingshot/config/ssl/fabric-manager.crt'] -> File['/opt/slingshot/config/ssl/fabric-manager.key'] -> Service['slingshot-nginx']
+  }
+    $firewall_allowed_subnets.each | $location, $source_cidr |
+  {
+    firewall { "400 allow HTTP on tcp port 80 from ${location}":
+      dport  => '80',
+      proto  => tcp,
+      source => $source_cidr,
+      action => accept,
+    }
+  }
+  $firewall_allowed_subnets.each | $location, $source_cidr |
+  {
+    firewall { "400 allow HTTPS on tcp port 443 from ${location}":
+      dport  => '80',
+      proto  => tcp,
+      source => $source_cidr,
+      action => accept,
+    }
   }
 }
