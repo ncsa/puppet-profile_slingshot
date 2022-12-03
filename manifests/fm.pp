@@ -82,4 +82,14 @@ class profile_slingshot::fm (
       action => accept,
     }
   }
+  $firewall_allowed_subnets.each | $location, $source_cidr |
+  {
+    firewall { "400 allow slingshot on tcp port 8000 from ${location}":
+      dport  => '8000',
+      proto  => tcp,
+      source => $source_cidr,
+      action => accept,
+    }
+  }
+
 }
