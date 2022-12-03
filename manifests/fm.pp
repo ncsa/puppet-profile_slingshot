@@ -73,4 +73,13 @@ class profile_slingshot::fm (
       action => accept,
     }
   }
+  $firewall_allowed_subnets.each | $location, $source_cidr |
+  {
+    firewall { "400 allow slingshot-keystore on tcp port 9000 from ${location}":
+      dport  => '9000',
+      proto  => tcp,
+      source => $source_cidr,
+      action => accept,
+    }
+  }
 }
