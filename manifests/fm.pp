@@ -38,7 +38,7 @@ class profile_slingshot::fm (
       mode    => '0600',
       owner    => 'root',
       group    => 'root',
-      notify  => Service['slingshot-nginx'],
+      notify  => Service['slingshot-nginx-secure'],
     }
 
     file { '/opt/slingshot/config/ssl/fabric-manager.crt':
@@ -46,14 +46,14 @@ class profile_slingshot::fm (
       mode     => '0644',
       owner    => 'root',
       group    => 'root',
-      notify  => Service['slingshot-nginx'],
+      notify  => Service['slingshot-nginx-secure'],
     }
     service { 'slingshot-nginx-secure':
       ensure   => 'running',
       provider => 'redhat',
     }
 
-    Exec['slingshot-dnf-modules'] -> Package['slingshot-fmn-redhat'] -> File['/opt/slingshot/config/ssl/fabric-manager.crt'] -> File['/opt/slingshot/config/ssl/fabric-manager.key'] -> Service['slingshot-nginx']
+    Exec['slingshot-dnf-modules'] -> Package['slingshot-fmn-redhat'] -> File['/opt/slingshot/config/ssl/fabric-manager.crt'] -> File['/opt/slingshot/config/ssl/fabric-manager.key'] -> Service['slingshot-nginx-secure']
   }
   
   $firewall_allowed_subnets.each | $location, $source_cidr |
