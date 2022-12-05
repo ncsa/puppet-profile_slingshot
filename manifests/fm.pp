@@ -91,9 +91,9 @@ class profile_slingshot::fm (
       action => accept,
     }
   }
-  $firewall_allowed_subnets.each | $source_cidr |
+  $firewall_allowed_subnets.each | $location, $source_cidr |
   {
-    firewall { "400 allow slingshot any":
+    firewall { "400 allow slingshot any for ${location}":
       proto  => 'all',
       source => $source_cidr,
       action => accept,
