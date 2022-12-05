@@ -48,49 +48,14 @@ class profile_slingshot::fm (
       group    => 'root',
       notify  => Service['slingshot-nginx'],
     }
-    service { 'slingshot-nginx':
+    service { 'slingshot-nginx-secure':
       ensure   => 'running',
       provider => 'redhat',
     }
 
     Exec['slingshot-dnf-modules'] -> Package['slingshot-fmn-redhat'] -> File['/opt/slingshot/config/ssl/fabric-manager.crt'] -> File['/opt/slingshot/config/ssl/fabric-manager.key'] -> Service['slingshot-nginx']
   }
-    $firewall_allowed_subnets.each | $location, $source_cidr |
-  {
-    firewall { "400 allow HTTP on tcp port 80 from ${location}":
-      dport  => '80',
-      proto  => tcp,
-      source => $source_cidr,
-      action => accept,
-    }
-  }
-  $firewall_allowed_subnets.each | $location, $source_cidr |
-  {
-    firewall { "400 allow HTTPS on tcp port 443 from ${location}":
-      dport  => '80',
-      proto  => tcp,
-      source => $source_cidr,
-      action => accept,
-    }
-  }
-  $firewall_allowed_subnets.each | $location, $source_cidr |
-  {
-    firewall { "400 allow slingshot-keystore on tcp port 9000 from ${location}":
-      dport  => '9000',
-      proto  => tcp,
-      source => $source_cidr,
-      action => accept,
-    }
-  }
-  $firewall_allowed_subnets.each | $location, $source_cidr |
-  {
-    firewall { "400 allow slingshot on tcp port 8000 from ${location}":
-      dport  => '8000',
-      proto  => tcp,
-      source => $source_cidr,
-      action => accept,
-    }
-  }
+  
   $firewall_allowed_subnets.each | $location, $source_cidr |
   {
     firewall { "400 allow slingshot any for ${location}":
