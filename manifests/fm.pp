@@ -11,10 +11,81 @@ class profile_slingshot::fm (
   String          $fm_version,
   String          $cert,
   String          $key,
+  Array $fabric_mgr_ips,
   Hash[String,String] $firewall_allowed_subnets,
+  String $sshkey_pub,
+  String $sshkey_priv,
+  String $sshkey_type,
 ) {
 
   if ($enable) {
+      # Secure sensitive data to prevent it showing in logs
+    $pubkey = Sensitive( $sshkey_pub )
+    $privkey = Sensitive( $sshkey_priv )
+
+    # Local variables
+
+    $sshdir = '/root/.ssh'
+
+    $file_defaults = {
+      ensure  => file,
+      owner   => root,
+      group   => root,
+      mode    => '0600',
+      require =>  File[ $sshdir ],
+    }
+
+
+    # Define unique parameters of each resource
+    $data = {
+      $sshdir => {
+        ensure => directory,
+        mode   => '0700',
+        require => [],
+      },
+      "${sshdir}/id_${sshkey_type}" => {
+        content => $privkey,
+      },
+      "${sshdir}/id_${sshkey_type}.pub" => {
+        content => $pubkey,
+        mode    => '0644',
+      },
+    }
+
+    # Ensure the resources
+    ensure_resources( 'file', $data, $file_defaults )
+ 
+    $params = {
+      'PubkeyAuthentication'  => 'yes',
+      'PermitRootLogin'       => 'without-password',
+      'AuthenticationMethods' => 'publickey',
+      'Banner'                => 'none',
+    }
+
+    ::sshd::allow_from{ 'profile_slingshot_fm':
+      hostlist                => $fabric_mgr_ips,
+      users                   => [ root ],
+      additional_match_params => $params,
+    }
+
+
+    $pubkey_parts = split( $sshkey_pub, ' ' )
+    $key_type = $pubkey_parts[0]
+    $key_data = $pubkey_parts[1]
+    $key_name = $pubkey_parts[2]
+
+    ssh_authorized_key { $key_name :
+      ensure => present,
+      user   => 'root',
+      type   => $key_type,
+      key    => $key_data,
+    }
+    $activebackupips = join($fabric_mgr_ips, "\n")
+    $activebackup = sprintf("%s\n", $activebackupips)
+    file { "/opt/slingshot/config/active_standby.dat":
+      path    => "/opt/slingshot/config/active_standby.dat",
+      content => $activebackup ,
+    }
     #exec { 'dnf-modules':
     #  path        => $path,
     #  command     => 'dnf -y module reset php container-tools nginx',
@@ -55,7 +126,7 @@ class profile_slingshot::fm (
 
     Exec['slingshot-dnf-modules'] -> Package['slingshot-fmn-redhat'] -> File['/opt/slingshot/config/ssl/fabric-manager.crt'] -> File['/opt/slingshot/config/ssl/fabric-manager.key'] -> Service['slingshot-nginx-secure']
   }
-  
+    
   $firewall_allowed_subnets.each | $location, $source_cidr |
   {
     firewall { "400 allow slingshot any for ${location}":
