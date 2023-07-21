@@ -1,1 +1,6 @@
 --- {}
+
+profile_slingshot::backup::locations:
+  - "/opt/cray"
+  - "/opt/slingshot"
+  - "/root"
