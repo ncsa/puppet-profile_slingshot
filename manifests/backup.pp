@@ -1,3 +1,13 @@
+# @summary Configure backups for Slingshot fabric manager node.
+#
+# Configure backups for Slingshot fabric manager node.
+#
+# @param locations
+#   Paths that need to be backed up.
+#
+# @example
+#   include profile_slingshot::backup
+#
 class profile_slingshot::backup (
   Array[String]     $locations,
 ) {

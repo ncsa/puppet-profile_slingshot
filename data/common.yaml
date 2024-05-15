@@ -1,6 +1,9 @@
---- {}
+---
 
 profile_slingshot::backup::locations:
+  - "/etc/sysconfig/keycloak"
   - "/opt/cray"
+  - "/opt/keycloak-[0-9]*"
+  - "/opt/opa-[0-9]*"
   - "/opt/slingshot"
   - "/root"
