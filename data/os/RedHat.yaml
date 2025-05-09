@@ -4,7 +4,6 @@ lookup_options:
     merge: "hash"
 
 profile_slingshot::fm::additional_packages:
-  "fmn-debug":
   "sshpass":
     install_options:
       - "--disablerepo": "*"
