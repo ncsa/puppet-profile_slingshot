@@ -14,7 +14,7 @@ required on Slingshot clients.
 
 The slingshot::fm module configures and the Slingshot fabric manager.
 
-* It configures nginx and php dnf modules to the correct version
+* It configures nginx dnf modules to the correct version
 * Installs the fabric manager and various components
 * Places certificates
 * Opens ports
