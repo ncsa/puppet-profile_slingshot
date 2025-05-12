@@ -115,7 +115,7 @@ class profile_slingshot::fm (
 
     # INSTALL SLINGSHOT FABRIC MANAGER SOFTWARE
 
-    $dnf_module_command = "dnf -y module reset nginx && dnf -y module nginx:${nginx_version}"
+    $dnf_module_command = "dnf -y module reset nginx && dnf -y module enable nginx:${nginx_version}"
     exec { 'slingshot-dnf-modules':
       provider => shell,
       command  => $dnf_module_command,
