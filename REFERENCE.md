@@ -70,7 +70,6 @@ The following parameters are available in the `profile_slingshot::fm` class:
 * [`firewall_allowed_subnets`](#firewall_allowed_subnets)
 * [`fm_version`](#fm_version)
 * [`nginx_version`](#nginx_version)
-* [`php_version`](#php_version)
 * [`sshkey_priv`](#sshkey_priv)
 * [`sshkey_pub`](#sshkey_pub)
 * [`sshkey_type`](#sshkey_type)
@@ -113,10 +112,10 @@ nginx version needed for fabric manager software.
 
 ##### <a name="php_version"></a>`php_version`
 
-Data type: `String`
+#####Data type: `String`
 
-PHP version needed for fabric manager software. (As of Slingshot
-version 2.2.0, and possibly earlier, PHP is no longer needed.)
+#####PHP version needed for fabric manager software. (As of Slingshot
+#####version 2.2.0, and possibly earlier, PHP is no longer needed.)
 
 ##### <a name="sshkey_priv"></a>`sshkey_priv`
 

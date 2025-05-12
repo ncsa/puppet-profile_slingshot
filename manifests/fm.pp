@@ -42,7 +42,6 @@ class profile_slingshot::fm (
   Hash[String,String] $firewall_allowed_subnets,
   String              $fm_version,
   String              $nginx_version,
-  String              $php_version,
   String              $sshkey_priv,
   String              $sshkey_pub,
   String              $sshkey_type,
@@ -116,11 +115,11 @@ class profile_slingshot::fm (
 
     # INSTALL SLINGSHOT FABRIC MANAGER SOFTWARE
 
-    $dnf_module_command = "dnf -y module reset php nginx && dnf -y module enable php:${php_version} nginx:${nginx_version} container-tools"
+    $dnf_module_command = "dnf -y module reset nginx && dnf -y module nginx:${nginx_version}"
     exec { 'slingshot-dnf-modules':
       provider => shell,
       command  => $dnf_module_command,
-      unless   => "dnf module list nginx | grep ${nginx_version} | egrep -i \'${nginx_version} \\[[e|d]\\]\' || dnf module list php | grep ${php_version} | egrep -i \'${php_version} \\[[e|d]\\]\'",
+      unless   => "dnf module list nginx | grep ${nginx_version} | egrep -i \'${nginx_version} \\[[e|d]\\]\'",
       before   => Package['slingshot-fmn-redhat'],
     }
 
