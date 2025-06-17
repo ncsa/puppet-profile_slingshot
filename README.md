@@ -19,3 +19,7 @@ The slingshot::fm module configures and the Slingshot fabric manager.
 * Places certificates
 * Opens ports
 * Starts Nginx
+
+## History of breaking changes
+
+v0.3.0 - fabric_mgr_ips changes to fabric_mgr_hosts (data for host resources).

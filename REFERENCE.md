@@ -66,7 +66,7 @@ The following parameters are available in the `profile_slingshot::fm` class:
 
 * [`additional_packages`](#additional_packages)
 * [`enable`](#enable)
-* [`fabric_mgr_ips`](#fabric_mgr_ips)
+* [`fabric_mgr_hosts`](#fabric_mgr_hosts)
 * [`firewall_allowed_subnets`](#firewall_allowed_subnets)
 * [`fm_version`](#fm_version)
 * [`nginx_version`](#nginx_version)
@@ -86,11 +86,17 @@ Data type: `Boolean`
 
 Enable fabric manager management.
 
-##### <a name="fabric_mgr_ips"></a>`fabric_mgr_ips`
+##### <a name="fabric_mgr_hosts"></a>`fabric_mgr_hosts`
 
 Data type: `Array`
 
-IP addresses for fabric manager(s).
+Host resource data for fabric manager(s). E.g.:
+  "fmn01.f.q.d.n":
+    comment: "optional comment"
+    ip: "10.0.0.2"          # use the switch network IP here
+    host_aliases:           # optionally include aliases:
+      - "fmn01"             #   - short hostname is a good idea
+      - "fmn01-sn.f.q.d.n"  #   - good to include switch network hostname too
 
 ##### <a name="firewall_allowed_subnets"></a>`firewall_allowed_subnets`
 
@@ -109,13 +115,6 @@ Fabric manager software version.
 Data type: `String`
 
 nginx version needed for fabric manager software.
-
-##### <a name="php_version"></a>`php_version`
-
-#####Data type: `String`
-
-#####PHP version needed for fabric manager software. (As of Slingshot
-#####version 2.2.0, and possibly earlier, PHP is no longer needed.)
 
 ##### <a name="sshkey_priv"></a>`sshkey_priv`
 

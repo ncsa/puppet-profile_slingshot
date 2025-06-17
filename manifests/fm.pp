@@ -8,8 +8,14 @@
 # @param enable
 #   Enable fabric manager management.
 #
-# @param fabric_mgr_ips
-#   IP addresses for fabric manager(s).
+# @param fabric_mgr_hosts
+#   Host resource data for fabric manager(s). E.g.:
+#     "fmn01.f.q.d.n":
+#       comment: "optional comment"
+#       ip: "10.0.0.2"          # use the switch network IP here
+#       host_aliases:           # optionally include aliases:
+#         - "fmn01"             #   - short hostname is a good idea
+#         - "fmn01-sn.f.q.d.n"  #   - good to include switch network hostname too
 #
 # @param firewall_allowed_subnets
 #   Trusted CIDR ranges for managed Slingshot switches.
@@ -19,10 +25,6 @@
 #
 # @param nginx_version
 #   nginx version needed for fabric manager software.
-#
-# @param php_version
-#   PHP version needed for fabric manager software. (As of Slingshot
-#   version 2.2.0, and possibly earlier, PHP is no longer needed.)
 #
 # @param sshkey_priv
 #   Private key for fabric manager SSH.
@@ -38,7 +40,7 @@
 class profile_slingshot::fm (
   Hash                $additional_packages,
   Boolean             $enable,
-  Array               $fabric_mgr_ips,
+  Hash                $fabric_mgr_hosts,
   Hash[String,String] $firewall_allowed_subnets,
   String              $fm_version,
   String              $nginx_version,
@@ -90,6 +92,18 @@ class profile_slingshot::fm (
       'PermitRootLogin'         => 'yes',  # needed for setup
       'AuthenticationMethods' => 'publickey password',  # password needed for setup
       'Banner'                => 'none',
+    }
+
+    ## Ensure hosts entries
+    $host_defaults = {
+      ensure => 'present',
+      target => '/etc/hosts',
+    }
+    ensure_resources('host', $fabric_mgr_hosts, $host_defaults)
+
+    ## Extract FMN IPs from hosts data
+    $fabric_mgr_ips = $fabric_mgr_hosts.map |$key, $host_data| {
+      $host_data['ip']
     }
 
     ## Configure sshd_config
